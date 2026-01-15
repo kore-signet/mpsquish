@@ -17,6 +17,12 @@ fn pack_msgpack_stream_bench(c: &mut Criterion) {
             pack_msgpack_stream(&data[..], &mut interner, &mut out);
         });
     });
+
+    let mut interner = lasso::Rodeo::new();
+    let mut out = Vec::with_capacity(data.len());
+    pack_msgpack_stream(&data[..], &mut interner, &mut out);
+    println!("unpacked size: {} bytes", data.len());
+    println!("packed size: {} bytes", out.len());
 }
 
 fn unpack_msgpack_stream_bench(c: &mut Criterion) {

@@ -15,6 +15,10 @@ mpsquish::compacted_stream_to_json(src: &msgpack_packed_data[..], interner: &las
 # benchmarks (citm_catalog.json)
 
 ```
+size:
+    unpacked: 342,473 bytes
+    packed: 161,130 bytes
+
 msgpack -> compressed msgpack
     time:   [1.4506 ms 1.4556 ms 1.4618 ms]
 
