@@ -38,7 +38,7 @@ impl<'a, 's, I: Resolver> RmpToJson<'a, 's, I> {
                         .map_err(UnpackError::Resolver)?
                         .ok_or(UnpackError::KeyNotFound)?;
                     obj.field(
-                        UnescapedStr::create(k),
+                        UnescapedStr::create(&k),
                         RmpToJson {
                             reader: self.reader,
                             interner: self.interner,

@@ -3,6 +3,7 @@
 //! note: currently panics extremely easily, TODO on improving that. do not throw anything with non-string map keys at it it will be very sad
 
 use lasso::{Key, Spur};
+use smol_str::SmolStr;
 
 use crate::{pack::Packer, unpack::RmpToJson};
 
@@ -86,7 +87,7 @@ pub trait Interner {
 pub trait Resolver {
     type Err: std::error::Error;
 
-    fn resolve(&self, k: usize) -> Result<Option<&str>, Self::Err>;
+    fn resolve(&self, k: usize) -> Result<Option<SmolStr>, Self::Err>;
 }
 
 impl<T: lasso::Interner> Interner for T {
@@ -99,8 +100,8 @@ impl<T: lasso::Interner> Interner for T {
 
 impl<T: lasso::Resolver> Resolver for T {
     type Err = core::convert::Infallible;
-    fn resolve(&self, k: usize) -> Result<Option<&str>, Self::Err> {
-        Ok(Spur::try_from_usize(k).and_then(|v| self.try_resolve(&v)))
+    fn resolve(&self, k: usize) -> Result<Option<SmolStr>, Self::Err> {
+        Ok(Spur::try_from_usize(k).and_then(|v| self.try_resolve(&v).map(SmolStr::from)))
     }
 }
 
